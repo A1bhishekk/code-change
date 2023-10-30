@@ -25,7 +25,7 @@ def get_source_content(url):
         return response.content
     else:
         return None
-
+    
 def get_sourcefiles(raw_url: str,) -> str:
     """
     Extract patch content from a GitHub raw URL and save it to a file.
@@ -278,6 +278,8 @@ def generate_line_diff(c_cpp_csv):
                     only_type = "not know"
                 
                 sourcefiles = get_source_content(raw_url)
+                if sourcefiles is not None:
+                   sourcefiles_str = sourcefiles.decode('utf-8') 
                 # print("sourcefiles",sourcefiles)
                 # TODO: get sourcefiles from local
                 if not os.path.exists("patchAll0206/" + only_type + '/' + project + '/' + CWE_ID + '/' + file_dir):
@@ -287,7 +289,7 @@ def generate_line_diff(c_cpp_csv):
                 patchfile_dir = "patchAll0206/" + only_type + '/' + project + '/' + CWE_ID + '/' + file_dir + '/' + only_name + '_' + 'patch.txt'
                 # print(patchfile_dir,"<===>",sourcefile_dir)
                 with open(sourcefile_dir, "w+") as source_file, open(patchfile_dir, "w+") as patch_file:
-                    source_file.write(sourcefiles)
+                    source_file.write(sourcefiles_str)
                     patch_file.write(patch)
                     # print("sourcefile_dir",sourcefile_dir)
                 # get functions: if vul? not vul?
