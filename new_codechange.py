@@ -67,7 +67,7 @@ def get_line_numbers(filename,lang_type):
     return line_nums
 
 def process_file(filename, line_num):
-    print("opening " + filename + " on line " + str(line_num))
+    # print("opening " + filename + " on line " + str(line_num))
 
     code = ""
     cnt_braket = 0
@@ -231,7 +231,9 @@ def get_diff_information(filename, diff_start_lines):
 def generate_line_diff(c_cpp_csv):
     vul_number = 0 
     lname=[]
-    # data=[]
+    vul_functions_before = []
+    vul_functions_after = []
+
     for index, row in c_cpp_csv.iterrows():
          try:   
             commit_id = row["commit_id"]
@@ -295,9 +297,9 @@ def generate_line_diff(c_cpp_csv):
                 # get functions: if vul? not vul?
                 if only_type == "c":
                     num = get_diff_num(patchfile_dir)
-                    print("num", num)
+                    # print("num", num)
                     archors = get_diff_information(patchfile_dir, num)
-                    print("archors", archors)
+                    # print("archors", archors)
                     block_num = 0
                     block_total = len(archors)
                     for archor in archors:
@@ -321,9 +323,9 @@ def generate_line_diff(c_cpp_csv):
                         # print("add_patch_file_dir", add_patch_file_dir)
                         with open(sourcefile_dir, "r") as before, open(add_patch_file_dir, "a") as after:
                             lines = before.readlines()
-                            print("lines", lines)
+                            # print("lines", lines)
                             flen = len(lines)
-                            print("flen", flen)
+                            # print("flen", flen)
                             for i in range(flen):
                                 if last_end - 1 < i <= source_end - 1:
                                     if i == 0:
@@ -332,7 +334,7 @@ def generate_line_diff(c_cpp_csv):
                                     if (patch_start - 1 <= i <= source_end - 1):
                                         if wrote == False:
                                             for patch_line in archor[6][1:]:
-                                                print("This is patch_line", patch_line,"************************************************************************************")
+                                                # print("This is patch_line", patch_line,"************************************************************************************")
                                                 # data.append(patch_line,commit_id)
 
                                                 if patch_line.startswith("+"):
@@ -353,11 +355,12 @@ def generate_line_diff(c_cpp_csv):
                                 if block_num == block_total and source_end < flen and i > source_end - 1:
                                     after.write(lines[i])
                     line_nums = get_line_numbers(add_patch_file_dir, "c")
-                    print("line_nums", line_nums)
+                    # print("line_nums", line_nums)
                     if len(line_nums) > 0:
                         for line_num in line_nums:
                             code, i = process_file(add_patch_file_dir, line_num)
                             if "//flaw_line_below:" in code or "//fix_flaw_line_below:\n//" in code:
+                                print("This is code",code)
                                 vul_number += 1
                                 split_vul_dir = "./split0206/vul" + '/' + project + '/' + CWE_ID
                                 if not os.path.exists(split_vul_dir):
@@ -366,6 +369,7 @@ def generate_line_diff(c_cpp_csv):
                                     i) + "_" + filename
                                 with open(split_vul_file, "w+") as vulFun:
                                     vulFun.write(code)
+                                    
                                 split_vul_dir_0 = "./split0206/vul0" + '/' + project
                                 if not os.path.exists(split_vul_dir_0):
                                     os.makedirs(split_vul_dir_0)
@@ -375,6 +379,7 @@ def generate_line_diff(c_cpp_csv):
                                     vulFun0.write(code)
                             else:
                                 split_nonevul_dir = "./split0206/nonevul" + '/' + project
+                                print("this is nonevul",code)
                                 if not os.path.exists(split_nonevul_dir):
                                     os.makedirs(split_nonevul_dir)
                                 split_nonevul_file = split_nonevul_dir + '/' + "add_patch_" + str(i) + "_" + filename
@@ -383,7 +388,7 @@ def generate_line_diff(c_cpp_csv):
                         print("一共有 %d 个" % vul_number)
               
                 elif only_type in ["C", "cc", "cxx", "cpp", "c++", "Cpp"]:
-                    print("\n\n\n cppcppcppcppcppcppcppcppcppcppcppcppcppcppcppcpp \n\n\n")
+                    # print("\n\n\n cppcppcppcppcppcppcppcppcppcppcppcppcppcppcppcpp \n\n\n")
                     num = get_diff_num(patchfile_dir)
                     archors = get_diff_information(patchfile_dir, num)
                     block_num = 0
