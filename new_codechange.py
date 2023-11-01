@@ -484,6 +484,12 @@ def generate_line_diff(c_cpp_csv):
             continue
 
     print("this is our data",data)
+    df = pd.DataFrame(data)
+    df.to_csv('line_diff.csv', index=False, encoding='utf-8')
+
+    
+
+           
 if __name__ == '__main__':
     c_cpp_csv = pd.read_csv('all_c_cpp_release2.0.csv',nrows=1, encoding='utf-8')
     result=generate_line_diff(c_cpp_csv)
