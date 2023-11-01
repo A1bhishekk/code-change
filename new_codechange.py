@@ -485,5 +485,5 @@ def generate_line_diff(c_cpp_csv):
 
     print(data)
 if __name__ == '__main__':
-    c_cpp_csv = pd.read_csv('all_c_cpp_release2.0.csv',nrows=10, encoding='utf-8')
+    c_cpp_csv = pd.read_csv('all_c_cpp_release2.0.csv',nrows=1, encoding='utf-8')
     result=generate_line_diff(c_cpp_csv)
