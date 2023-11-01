@@ -23,7 +23,7 @@ body = "Hello, please find the attached CSV file."
 message.attach(MIMEText(body, 'plain'))
 
 # Attach the CSV file
-csv_file_path = 'line_diff.csv'
+csv_file_path = 'transformeddata.csv'
 with open(csv_file_path, 'rb') as file:
     part = MIMEApplication(file.read())
     part.add_header('Content-Disposition', 'attachment', filename='m.csv')
