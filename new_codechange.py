@@ -233,6 +233,7 @@ def generate_line_diff(c_cpp_csv):
     lname=[]
     vul_functions_before = []
     vul_functions_after = []
+    data=[]
 
     for index, row in c_cpp_csv.iterrows():
          try:   
@@ -377,6 +378,22 @@ def generate_line_diff(c_cpp_csv):
                                     i) + "_" + filename
                                 with open(split_vul_file_0, "w+") as vulFun0:
                                     vulFun0.write(code)
+                                cve_id = row["cve_id"]
+                                cwe_id = row["cwe_id"]
+                                project = row["project"]
+                                commit_id = row["commit_id"]
+                                result={
+                                    "cve_id":cve_id,
+                                    "cwe_id":cwe_id,
+                                    "project":project,
+                                    "commit_id":commit_id,
+                                    "code":code,
+                                    "line_num":i,
+                                    "filename":filename,
+                                    "type":only_type,
+                                    "raw_url":raw_url
+                                }
+                                data.append(result)
                             else:
                                 split_nonevul_dir = "./split0206/nonevul" + '/' + project
                                 print("this is nonevul",code)
@@ -466,7 +483,7 @@ def generate_line_diff(c_cpp_csv):
             print("\n index:" + str(index) + "！")
             continue
 
-    # print(data)
+    print(data)
 if __name__ == '__main__':
     c_cpp_csv = pd.read_csv('all_c_cpp_release2.0.csv',nrows=10, encoding='utf-8')
     result=generate_line_diff(c_cpp_csv)
