@@ -486,6 +486,7 @@ def generate_line_diff(c_cpp_csv):
     print("this is our data",data)
     df = pd.DataFrame(data)
     df.to_csv('transformeddata.csv', index=False, encoding='utf-8')
+    print('complete')
 
 
 
