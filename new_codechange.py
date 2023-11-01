@@ -402,6 +402,18 @@ def generate_line_diff(c_cpp_csv):
                                 split_nonevul_file = split_nonevul_dir + '/' + "add_patch_" + str(i) + "_" + filename
                                 with open(split_nonevul_file, "w+") as nonVulFun:
                                     nonVulFun.write(code)
+                                result={
+                                    "cve_id":cve_id,
+                                    "cwe_id":cwe_id,
+                                    "project":project,
+                                    "commit_id":commit_id,
+                                    "code":code,
+                                    "line_num":i,
+                                    "filename":filename,
+                                    "type":only_type,
+                                    "raw_url":raw_url
+                                }
+                                data.append(result)
                         print("一共有 %d 个" % vul_number)
               
                 elif only_type in ["C", "cc", "cxx", "cpp", "c++", "Cpp"]:
@@ -467,6 +479,18 @@ def generate_line_diff(c_cpp_csv):
                                     i) + "_" + filename
                                 with open(split_vul_file_0, "w+") as vulFun0:
                                     vulFun0.write(code)
+                                result={
+                                    "cve_id":cve_id,
+                                    "cwe_id":cwe_id,
+                                    "project":project,
+                                    "commit_id":commit_id,
+                                    "code":code,
+                                    "line_num":i,
+                                    "filename":filename,
+                                    "type":only_type,
+                                    "raw_url":raw_url
+                                }
+                                data.append(result)
                             else:
                                 split_nonevul_dir = "./split0206/nonevul" + '/' + project
                                 if not os.path.exists(split_nonevul_dir):
@@ -474,6 +498,18 @@ def generate_line_diff(c_cpp_csv):
                                 split_nonevul_file = split_nonevul_dir + '/' + "add_patch_" + str(i) + "_" + filename
                                 with open(split_nonevul_file, "w+") as nonVulFun:
                                     nonVulFun.write(code)
+                                result={
+                                    "cve_id":cve_id,
+                                    "cwe_id":cwe_id,
+                                    "project":project,
+                                    "commit_id":commit_id,
+                                    "code":code,
+                                    "line_num":i,
+                                    "filename":filename,
+                                    "type":only_type,
+                                    "raw_url":raw_url
+                                }
+                                data.append(result)
                         print("一共有 %d 个" % vul_number)
 
          except Exception as e:
@@ -492,5 +528,5 @@ def generate_line_diff(c_cpp_csv):
 
            
 if __name__ == '__main__':
-    c_cpp_csv = pd.read_csv('all_c_cpp_release2.0.csv',nrows=100, encoding='utf-8')
+    c_cpp_csv = pd.read_csv('all_c_cpp_release2.0.csv', encoding='utf-8')
     result=generate_line_diff(c_cpp_csv)
